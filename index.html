@@ -374,20 +374,24 @@ function updateSummary() {
 
 // Role switching
 const roleSelect = document.getElementById('roleSelect');
-roleSelect.addEventListener('change', () => {
-  currentRole = roleSelect.value;
-  renderActivity();
-});
+if (roleSelect) {
+  roleSelect.addEventListener('change', () => {
+    currentRole = roleSelect.value;
+    renderActivity();
+  });
+}
 
 // Menu toggle
 const menuToggle = document.getElementById('menuToggle');
 const menu = document.getElementById('menu');
-menuToggle.addEventListener('click', () => {
-  const visible = menu.style.display === 'block';
-  menu.style.display = visible ? 'none' : 'block';
-  menuToggle.textContent = visible ? 'Speisekarte anzeigen' : 'Speisekarte ausblenden';
-  menu.setAttribute('aria-hidden', visible ? 'true' : 'false');
-});
+if (menuToggle && menu) {
+  menuToggle.addEventListener('click', () => {
+    const visible = menu.style.display === 'block';
+    menu.style.display = visible ? 'none' : 'block';
+    menuToggle.textContent = visible ? 'Speisekarte anzeigen' : 'Speisekarte ausblenden';
+    menu.setAttribute('aria-hidden', visible ? 'true' : 'false');
+  });
+}
 
 // Initial render
 renderActivity();
