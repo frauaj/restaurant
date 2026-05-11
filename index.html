@@ -1,268 +1,3 @@
-<!DOCTYPE html>
-
-<html lang="de">
-<head>
-<meta charset="utf-8"/>
-<title>Im Restaurant – Rollenspiel</title>
-<style>
-        body {
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-            margin: 0;
-            padding: 0;
-            background: #f5f5f5;
-            color: #222;
-        }
-        header {
-            background: #2c3e50;
-            color: white;
-            padding: 1rem 1.5rem;
-        }
-        header h1 {
-            margin: 0;
-            font-size: 1.5rem;
-        }
-        header p {
-            margin: 0.25rem 0 0;
-            font-size: 0.95rem;
-        }
-        main {
-            max-width: 900px;
-            margin: 1.5rem auto 2rem;
-            background: white;
-            padding: 1.5rem;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-            border-radius: 8px;
-        }
-        .instructions {
-            background: #ecf0f1;
-            padding: 1rem;
-            border-radius: 6px;
-            margin-bottom: 1rem;
-            font-size: 0.95rem;
-        }
-        .instructions strong {
-            color: #c0392b;
-        }
-        #menuToggle {
-            margin: 0.75rem 0;
-        }
-        #menu {
-            display: none;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            padding: 1rem;
-            margin-bottom: 1.5rem;
-            background: #fafafa;
-            font-size: 0.95rem;
-        }
-        #menu h2 {
-            margin-top: 0;
-            font-size: 1.1rem;
-        }
-        #menu section {
-            margin-bottom: 0.75rem;
-        }
-        #menu h3 {
-            margin: 0.5rem 0 0.25rem;
-            font-size: 1rem;
-        }
-        #menu ul {
-            margin: 0.25rem 0 0.5rem 1.2rem;
-            padding: 0;
-        }
-        #menu li {
-            margin-bottom: 0.15rem;
-        }
-        .scene {
-            margin-bottom: 1.25rem;
-            padding-bottom: 1.25rem;
-            border-bottom: 1px solid #eee;
-        }
-        .scene:last-of-type {
-            border-bottom: none;
-            padding-bottom: 0;
-        }
-        .scene h2 {
-            font-size: 1.15rem;
-            margin: 0 0 0.5rem;
-        }
-        .scene p.context {
-            margin: 0 0 0.75rem;
-            font-style: italic;
-            color: #555;
-        }
-        .dialogue {
-            margin-bottom: 0.75rem;
-            padding: 0.75rem;
-            border-radius: 6px;
-            background: #f8f9fa;
-        }
-        .role {
-            font-weight: bold;
-        }
-        .options {
-            margin: 0.5rem 0;
-        }
-        .options button {
-            display: block;
-            width: 100%;
-            text-align: left;
-            margin: 0.25rem 0;
-            padding: 0.4rem 0.6rem;
-            border-radius: 4px;
-            border: 1px solid #bdc3c7;
-            background: white;
-            cursor: pointer;
-            font-size: 0.95rem;
-        }
-        .options button:hover {
-            background: #ecf0f1;
-        }
-        .options button.correct {
-            border-color: #27ae60;
-        }
-        .options button.incorrect {
-            border-color: #c0392b;
-        }
-        .feedback {
-            font-size: 0.9rem;
-            margin-top: 0.25rem;
-            min-height: 1.2em;
-        }
-        .feedback.correct {
-            color: #27ae60;
-        }
-        .feedback.incorrect {
-            color: #c0392b;
-        }
-        .progress {
-            margin-top: 0.5rem;
-            font-size: 0.9rem;
-            color: #555;
-        }
-        #summary {
-            margin-top: 1.5rem;
-            padding-top: 1rem;
-            border-top: 1px solid #ddd;
-            font-size: 0.95rem;
-        }
-        #summary strong {
-            color: #2980b9;
-        }
-        .score-bar {
-            height: 10px;
-            background: #ecf0f1;
-            border-radius: 5px;
-            overflow: hidden;
-            margin-top: 0.5rem;
-        }
-        .score-fill {
-            height: 100%;
-            width: 0;
-            background: #27ae60;
-            transition: width 0.3s ease;
-        }
-        .role-chooser {
-            margin-bottom: 1rem;
-        }
-        .role-chooser select {
-            padding: 0.3rem 0.4rem;
-            font-size: 0.95rem;
-        }
-        .badge {
-            display: inline-block;
-            padding: 0.15rem 0.4rem;
-            border-radius: 999px;
-            font-size: 0.75rem;
-            background: #dff9fb;
-            color: #130f40;
-            margin-left: 0.25rem;
-        }
-        .audio-prompt {
-            margin: 0.5rem 0 0.75rem;
-            font-size: 0.9rem;
-        }
-        .audio-prompt audio {
-            width: 100%;
-            max-width: 320px;
-            margin-top: 0.25rem;
-        }
-
-        @media (min-width: 700px) {
-            .options button {
-                width: 48%;
-                display: inline-block;
-                margin-right: 2%;
-            }
-            .options button:nth-child(2n) {
-                margin-right: 0;
-            }
-        }
-    </style>
-</head>
-<body>
-<header>
-<h1>Im Restaurant – Interaktives Rollenspiel</h1>
-<p>Niveau: B2 · Jahrgangsstufen 6–8 · Thema: Essen und Trinken</p>
-</header>
-<main>
-<section class="instructions">
-<p><strong>Aufgabe:</strong> Du spielst eine Szene im Restaurant. Wähle in jeder Situation die passendste Antwort auf Deutsch.</p>
-<p>Du kannst zuerst die <strong>Speisekarte</strong> ansehen und auswählen, ob du als <strong>Gast</strong> oder als <strong>Kellner/in</strong> sprichst.</p>
-</section>
-<section class="role-chooser">
-<label for="roleSelect"><strong>Rolle wählen:</strong></label>
-<select id="roleSelect">
-<option value="gast">Ich bin der Gast</option>
-<option value="kellner">Ich bin der Kellner / die Kellnerin</option>
-</select>
-<span class="badge">Tipp: Spielt die Szene später auch in Paaren!</span>
-</section>
-<button id="menuToggle">Speisekarte anzeigen</button>
-<section aria-hidden="true" id="menu">
-<h2>Speisekarte – Restaurant „Zum guten Geschmack“</h2>
-<section>
-<h3>Getränke</h3>
-<ul>
-<li>Mineralwasser (still / mit Kohlensäure)</li>
-<li>Apfelsaft, Orangensaft</li>
-<li>Limonade, Cola</li>
-<li>Heiße Schokolade, Tee, Kaffee</li>
-</ul>
-</section>
-<section>
-<h3>Hauptgerichte</h3>
-<ul>
-<li>Pasta mit Tomatensoße (vegetarisch)</li>
-<li>Gemüse-Curry mit Reis (vegan)</li>
-<li>Grillhähnchen mit Pommes</li>
-<li>Rindersteak mit Salat</li>
-</ul>
-</section>
-<section>
-<h3>Desserts</h3>
-<ul>
-<li>Apfelstrudel mit Vanillesoße</li>
-<li>Schokoladenkuchen</li>
-<li>Fruchtsalat</li>
-<li>Eis (Vanille, Schokolade, Erdbeere)</li>
-</ul>
-</section>
-</section>
-<section id="activity"></section>
-<section id="summary">
-<p><strong>Dein Ergebnis:</strong> Du hast <span id="correctCount">0</span> von <span id="totalCount">0</span> Situationen gut gelöst.</p>
-<div aria-hidden="true" class="score-bar">
-<div class="score-fill" id="scoreFill"></div>
-</div>
-<p id="summaryText"></p>
-</section><section id="teacher">
-<h2>Ergebnis für die Lehrkraft</h2>
-<p>Wenn du fertig bist, zeige deiner Lehrkraft deinen Code.</p>
-<p><strong>Dein persönlicher Code:</strong> <span id="resultCode">---</span></p>
-<p><em>Tipp:</em> Mach einen Screenshot oder schreibe deinen Code in dein Heft.</p>
-</section>
-</main>
 <script>
 const scenesGast = [
   {
@@ -291,15 +26,15 @@ const scenesGast = [
   {
     id: 2,
     title: "Die Bestellung aufnehmen",
-    context: "Der Kellner bringt dir die Speisekarte und fragt: "Was möchten Sie bestellen?"",
+    context: 'Der Kellner bringt dir die Speisekarte und fragt: "Was möchten Sie bestellen?"',
     prompt: "Wie reagierst du?",
     speaker: "Gast",
     options: [
       {
         text: "Ich hätte gern das Grillhähnchen mit Pommes und dazu ein Mineralwasser, bitte.",
         correct: true,
-        feedbackCorrect: "Sehr gut: Höfliche Formulierung mit "ich hätte gern" und "bitte".",
-        feedbackWrong: "Nutze eine höfliche Form wie "ich hätte gern" oder "ich nehme" und vergiss das "bitte" nicht."
+        feedbackCorrect: 'Sehr gut: Höfliche Formulierung mit "ich hätte gern" und "bitte".',
+        feedbackWrong: 'Nutze eine höfliche Form wie "ich hätte gern" oder "ich nehme" und vergiss das "bitte" nicht.'
       },
       {
         text: "Hähnchen. Wasser.",
@@ -321,8 +56,8 @@ const scenesGast = [
       {
         text: "Entschuldigung, könnte ich statt Pommes bitte Salat bekommen?",
         correct: true,
-        feedbackCorrect: "Perfekt: höfliche Frage mit "Entschuldigung" und "bitte".",
-        feedbackWrong: "Formuliere eine Frage mit "könnte ich ... bekommen?" und sei höflich."
+        feedbackCorrect: 'Perfekt: höfliche Frage mit "Entschuldigung" und "bitte".',
+        feedbackWrong: 'Formuliere eine Frage mit "könnte ich ... bekommen?" und sei höflich.'
       },
       {
         text: "Pommes sind schlecht, ich will Salat.",
@@ -337,7 +72,7 @@ const scenesGast = [
   {
     id: 4,
     title: "Feedback geben",
-    context: "Du hast gegessen und der Kellner fragt: "Hat es Ihnen geschmeckt?"",
+    context: 'Du hast gegessen und der Kellner fragt: "Hat es Ihnen geschmeckt?"',
     prompt: "Wie kannst du freundlich antworten?",
     speaker: "Gast",
     options: [
@@ -368,7 +103,7 @@ const scenesGast = [
         text: "Entschuldigung, könnten wir bitte bezahlen?",
         correct: true,
         feedbackCorrect: "Höflich, pluralisch und sehr natürlich.",
-        feedbackWrong: "Nutze eine Frage mit "könnten wir / könnte ich bitte bezahlen?"."
+        feedbackWrong: 'Nutze eine Frage mit "könnten wir / könnte ich bitte bezahlen?".'
       },
       {
         text: "Rechnung!",
@@ -432,7 +167,7 @@ const scenesKellner = [
   {
     id: 3,
     title: "Empfehlung geben",
-    context: "Ein Gast fragt: "Was können Sie empfehlen?"",
+    context: 'Ein Gast fragt: "Was können Sie empfehlen?"',
     prompt: "Wie reagierst du?",
     speaker: "Kellner/in",
     options: [
@@ -455,7 +190,7 @@ const scenesKellner = [
   {
     id: 4,
     title: "Nachfragen bei Änderungen",
-    context: "Ein Gast sagt: "Ohne Pommes, bitte."",
+    context: 'Ein Gast sagt: "Ohne Pommes, bitte."',
     prompt: "Was sagst du, um sicher zu sein, dass du alles richtig verstanden hast?",
     speaker: "Kellner/in",
     options: [
@@ -478,7 +213,7 @@ const scenesKellner = [
   {
     id: 5,
     title: "Rechnung bringen",
-    context: "Die Gäste fragen: "Könnten wir bitte bezahlen?"",
+    context: 'Die Gäste fragen: "Könnten wir bitte bezahlen?"',
     prompt: "Was sagst du?",
     speaker: "Kellner/in",
     options: [
@@ -581,7 +316,6 @@ function handleAnswer(sceneId, optionIndex, button, scene) {
       correctAnswers++;
     }
   } else {
-    // prevent double scoring
     return;
   }
 
@@ -658,7 +392,6 @@ menuToggle.addEventListener('click', () => {
 // Initial render
 renderActivity();
 
-
 // Generiere einen einfachen Code, der das Ergebnis zusammenfasst
 function generateResultCode() {
   const role = currentRole === 'gast' ? 'GAST' : 'KELLNER';
@@ -682,5 +415,3 @@ updateSummary = function() {
 // Ersten Code direkt nach dem Laden setzen
 window.addEventListener('load', generateResultCode);
 </script>
-</body>
-</html>
